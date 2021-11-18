@@ -17,8 +17,8 @@ from utils import onehot
 train_y, test_y = onehot(train_y), onehot(test_y)
 
 ## load and compile model
-model_name = "trained_model"
-model = CNN()
+model_name = "trained_model_nodrop"
+model = CNN(dropout_rate=0.0)
 model.summary()
 
 opti = keras.optimizers.Adam()
@@ -27,7 +27,7 @@ metr = keras.metrics.CategoricalAccuracy()
 model.compile(loss=loss, optimizer=opti, metrics=[metr])
 
 ## train model
-es = keras.callbacks.EarlyStopping(monitor="val_loss", patience=5,
+es = keras.callbacks.EarlyStopping(monitor="val_loss", patience=6,
                                    restore_best_weights=True)
 history = model.fit(x=train_x, y=train_y, validation_split=0.1,
                     epochs=60, batch_size=32, callbacks=[es])

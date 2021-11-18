@@ -8,11 +8,12 @@ Created on Thu Nov 18 09:05:12 2021
 
 from tensorflow import keras
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 
 from utils import onehot
 
-model_name = "trained_model"
+model_name = "trained_model_nodrop"
 
 model = keras.models.load_model(model_name)
 model.summary()
@@ -25,11 +26,12 @@ metrics = model.evaluate(x=test_x, y=test_y_oh, return_dict=True)
 predictions = model.predict(x=test_x)
 
 # plot history
-epochs = np.arange(len(history['loss']))
+epochs = np.arange(len(history['loss']))+1
 fig, ax = plt.subplots(1,1, figsize=(6,4))
 ax.plot(epochs, history['loss'], label='Training data', marker='o')
 ax.plot(epochs, history['val_loss'], label='Validation data', marker='o')
 ax.set(xlabel='Epoch', ylabel='Categorical Crossentropy', title='Training history')
+ax.xaxis.set_major_locator(matplotlib.ticker.MaxNLocator(integer=True))
 ax.legend()
 ax.grid()
 
